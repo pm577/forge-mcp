@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "forge-mcp"
+version = "0.1.0"
+description = "Portable reputation protocol for AI agents. MCP-native trust scores, vouching, endorsements, and referral system."
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+dependencies = [
+    "mcp>=1.0.0",
+    "uvicorn>=0.27.0",
+    "starlette>=0.36.0",
+    "anyio>=4.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/pmmyrup/forge-mcp"
