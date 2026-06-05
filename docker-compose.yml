@@ -1,0 +1,12 @@
+services:
+  forge:
+    build: .
+    ports:
+      - "4243:4243"
+    volumes:
+      - forge_data:/root/.forge
+    restart: unless-stopped
+    command: forge-server --port 4243
+
+volumes:
+  forge_data:
