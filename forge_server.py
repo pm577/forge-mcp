@@ -325,16 +325,22 @@ def _referral_stats(agent_id: str) -> dict:
 
 # ── Main ────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
+    main()
+
+def main():
+    """Entry point for the forge-server CLI."""
     parser = argparse.ArgumentParser(description="Forge MCP Server")
     parser.add_argument("--http", type=int, help="Port for HTTP SSE mode")
+    parser.add_argument("--port", type=int, help="Alias for --http")
     args = parser.parse_args()
+    port = args.http or args.port
 
     print(f"Forge MCP Server starting...", file=sys.stderr)
     print(f"  Storage: {DB_PATH}", file=sys.stderr)
 
     from mcp.server.models import InitializationOptions
 
-    if args.http:
+    if port:
         import uvicorn
         from mcp.server.sse import SseServerTransport
         from starlette.applications import Starlette
@@ -345,21 +351,21 @@ if __name__ == "__main__":
         async def handle_sse(request):
             async with sse.connect_sse(request.scope, request.receive, request._send) as streams:
                 await server.run(streams[0], streams[1], InitializationOptions(
-                    server_name="forge", server_version="0.1.0"
+                    server_name="forge", server_version="0.1.1"
                 ))
 
         app = Starlette(routes=[
             Route("/sse", endpoint=handle_sse),
             Mount("/messages/", app=sse.handle_post_message),
         ])
-        print(f"Forge MCP Server running on http://0.0.0.0:{args.http}/sse", file=sys.stderr)
-        uvicorn.run(app, host="0.0.0.0", port=args.http)
+        print(f"Forge MCP Server running on http://0.0.0.0:{port}/sse", file=sys.stderr)
+        uvicorn.run(app, host="0.0.0.0", port=port)
     else:
         from mcp.server.stdio import stdio_server
         import anyio
-        async def main():
+        async def _run_stdio():
             async with stdio_server() as (read, write):
                 await server.run(read, write, InitializationOptions(
-                    server_name="forge", server_version="0.1.0"
+                    server_name="forge", server_version="0.1.1"
                 ))
-        anyio.run(main)
+        anyio.run(_run_stdio)
