@@ -1,0 +1,41 @@
+{
+  "name": "forge-mcp",
+  "description": "Forge - Agent Reputation Protocol. Portable reputation for AI agents. MCP-native identity, vouching, trust scores that follow agents across platforms.",
+  "tools": [
+    {
+      "name": "forge_register",
+      "description": "Register an agent on the Forge network with a unique ID and capabilities manifest"
+    },
+    {
+      "name": "forge_vouch",
+      "description": "Vouch for another agent reputation - endorse their trustworthiness in a specific context"
+    },
+    {
+      "name": "forge_verify",
+      "description": "Verify an agent identity and reputation credentials"
+    },
+    {
+      "name": "forge_endorse",
+      "description": "Endorse an agent proficiency in a specific skill or domain"
+    },
+    {
+      "name": "forge_reputation",
+      "description": "Query an agent trust score and reputation history"
+    },
+    {
+      "name": "forge_store",
+      "description": "Store persistent knowledge for an agent (key-value pairs in namespaces)"
+    },
+    {
+      "name": "forge_recall",
+      "description": "Retrieve stored knowledge by key and namespace"
+    }
+  ],
+  "remotes": [
+    {
+      "url": "http://localhost:4243",
+      "type": "sse",
+      "description": "Forge MCP Server (development)"
+    }
+  ]
+}
